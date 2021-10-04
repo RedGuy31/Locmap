@@ -22,14 +22,35 @@ class Workout {
   }
 }
 
-class Runing extends Workout{
-  constructor(coords,distance,duration , cadance)
+class Runing extends Workout {
+  constructor(coords, distance, duration, cadance) {
+    super(coords, distance, duration);
+    this.cadance = cadance;
+    this.calcPace();
+  }
+
+  calcPace() {
+    //Min/KM
+    this.pace = this.duration / this.distance;
+    return this.pace;
+  }
 }
 
-class Cycling extends Workout{}
+class Cycling extends Workout {
+  constructor(coords, distance, duration, elevetionGain) {
+    super(coords, distance, duration);
+    this.elevetionGain = elevetionGain;
+    this.calcSpeed();
+  }
 
+  calcSpeed() {
+    // km/h
+    this.speed = this.distance / this.duration;
+    return this.speed;
+  }
+}
 
-
+// APP Architecture
 
 class App {
   #map;
