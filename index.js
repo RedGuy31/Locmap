@@ -13,17 +13,15 @@ const inputElevation = document.querySelector(".form__input--elevation");
 let map, mapEvent;
 
 class App {
-  constructor() {}
-   
-  
+  constructor() {
+    this._getPosition();
+  }
+
   _getPosition() {
     if (navigator.geolocation)
-    navigator.geolocation.getCurrentPosition(
-      this._loadMap,
-      function () {
+      navigator.geolocation.getCurrentPosition(this._loadMap, function () {
         alert("Could not get your position");
-      }
-    );
+      });
   }
 
   _loadMap(position) {
@@ -43,18 +41,19 @@ class App {
     map.on("click", function (mapE) {
       mapEvent = mapE;
       form.classList.remove("hidden");
+      z;
       inputDistance.focus();
     });
   }
 
-  _showForm()
+  _showForm() {}
 
-  _toggleElevationField(){}
+  _toggleElevationField() {}
 
-  _newWorkout(){}
+  _newWorkout() {}
 }
 
-const app=new App();
+const app = new App();
 
 form.addEventListener("submit", function (e) {
   e.preventDefault();
