@@ -3,6 +3,14 @@
 // prettier-ignore
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
+const form = document.querySelector(".form");
+const containerWorkouts = document.querySelector(".workouts");
+const inputType = document.querySelector(".form__input--type");
+const inputDistance = document.querySelector(".form__input--distance");
+const inputDuration = document.querySelector(".form__input--duration");
+const inputCadence = document.querySelector(".form__input--cadence");
+const inputElevation = document.querySelector(".form__input--elevation");
+
 class Workout {
   date = new Date();
   id = (Date.now() + "").slice(-10);
@@ -14,7 +22,7 @@ class Workout {
   }
 }
 
-class Runing extends Workout {
+class Running extends Workout {
   constructor(coords, distance, duration, cadance) {
     super(coords, distance, duration);
     this.cadance = cadance;
@@ -42,18 +50,11 @@ class Cycling extends Workout {
   }
 }
 
-const run1 = new Runing([10, 29], 5.2, 25, 123);
+const run1 = new Running([10, 29], 5.2, 25, 123);
 const cycling1 = new Cycling([10, 29], 25, 34, 345);
 console.log(run1, cycling1);
 
 // //////////////////////////////////////////////////////
-const form = document.querySelector(".form");
-const containerWorkouts = document.querySelector(".workouts");
-const inputType = document.querySelector(".form__input--type");
-const inputDistance = document.querySelector(".form__input--distance");
-const inputDuration = document.querySelector(".form__input--duration");
-const inputCadence = document.querySelector(".form__input--cadence");
-const inputElevation = document.querySelector(".form__input--elevation");
 // APP Architecture
 
 class App {
@@ -107,12 +108,11 @@ class App {
   }
 
   _newWorkout(e) {
-    const validInputs = (...inputs) =>
+    const validInput = (...inputs) =>
       inputs.every((inp) => Number.isFinite(inp));
     const allPositive = (...inputs) => inputs.every((inp) => inp > 0);
 
     e.preventDefault();
-
     const type = inputType.value;
     const distance = +inputDistance.value;
     const duration = +inputDuration.value;
@@ -120,25 +120,28 @@ class App {
     let workout;
 
     if (type === "running") {
-      const cadence = +inputCadence.value;
+      const cadance = +inputCadence.value;
       if (
-        !validInputs(distance, duration, cadence) ||
-        !allPositive(distance, duration, cadence)
+        !validInput(distance, duration, cadance) ||
+        !allPositive(distance, duration, cadance)
       )
-        return alert("Input have to be positive !!");
-      const workout = new Runing([lat, lng], distance, cadence, duration);
+        return alert("Inputs have to be pos Numbers !!");
+
+      workout = new Running([lat, lng], distance, duration, cadance);
       this.#workouts.push(workout);
     }
 
     if (type === "cycling") {
       const elevation = +inputElevation.value;
       if (
-        !validInputs(distance, duration, elevation) ||
+        !validInput(distance, duration, elevation) ||
         !allPositive(distance, duration)
       )
-        return alert('Input have to be positive !!"');
-      this.#workouts.push(workout);
+        return alert("Inputs have to be pos Numbers !!");
+      workout = new Cycling([lat, lng], distance, duration, elevation);
     }
+
+    this.#workouts.push(workout);
 
     inputDistance.value =
       inputDuration.value =
@@ -154,7 +157,7 @@ class App {
           minWidth: 100,
           autoClose: false,
           closeOnClick: false,
-          className: ``,
+          className: "running-popup",
         })
       )
       .setPopupContent("Workout")
