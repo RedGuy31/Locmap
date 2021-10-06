@@ -251,7 +251,7 @@ class App {
 </div>
 <div class="workout__details">
 <span class="workout__icon">⛰</span>
-<span class="workout__value">${workout.elevationGain} </span>
+<span class="workout__value">${workout.elevetionGain} </span>
 <span class="workout__unit">m</span>
 </div>
 </li> 
